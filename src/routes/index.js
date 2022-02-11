@@ -1,8 +1,8 @@
 import templateRouter from "./template"
 
-const routerPlugin = (fastify, options, next) => {
+const routerPlugin = (fastify, options, done) => {
     fastify.register(templateRouter, { prefix: '/template' })
-    next()
+    done()
 }
 
 export default routerPlugin
