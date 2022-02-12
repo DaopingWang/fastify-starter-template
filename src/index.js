@@ -16,7 +16,7 @@ fastify.get('/:id', (request, reply) => {
     reply.send(items.find(item => item.id === id))
 })
 
-
+// Add routers and prefix to the server, e.g. { prefix: '/v1' }
 fastify.register(routerPlugin);
 
 fastify.listen(8080, '0.0.0.0', (err) => {
