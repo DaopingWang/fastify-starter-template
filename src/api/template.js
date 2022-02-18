@@ -2,7 +2,7 @@ import fastify from 'fastify';
 import { v4 as uuidv4 } from 'uuid';
 import { items as templateItems } from '../data/template'
 
-// example schema for data/template.js
+// Example schema for data/template.js
 const TemplateItemSchema = {
     type: 'object',
     properties: {
@@ -12,6 +12,7 @@ const TemplateItemSchema = {
 }
 
 // Options to get all items in data/template.js
+// Build-in handlers as the second property
 export const getTemplateItemsOpts = {
     schema: {
         response: {
@@ -20,7 +21,10 @@ export const getTemplateItemsOpts = {
                 items: TemplateItemSchema,
             }
         }
-    }
+    },
+    handler: function (request, reply) {
+        reply.send(templateItems)
+    },
 }
 
 // Options to get item in data/template.js based on id
@@ -29,6 +33,13 @@ export const getTemplateItemOpts = {
         resposne: {
             200: TemplateItemSchema,
         }
+    },
+    handler: function(request, reply) {
+        const { id } = request.params
+
+        // find item by id in object array
+        const item = templateItems.find((item) => item.id === id)
+        reply.send(item)
     }
 }
 

@@ -14,7 +14,11 @@ export default function templateRouter(fastify, options, done) {
         reply.send({template: 'works'})
     })
 
-    fastify.get('/item/:id', getTemplateItemOpts, handleTemplateItemByIdGet(fastify))
-    fastify.get('/items', getTemplateItemsOpts, handleAllTemplateItemsGet(fastify))
+    // Handle requests using built-in handlers in schema/option
+    fastify.get('/item/:id', getTemplateItemOpts)
+    fastify.get('/items', getTemplateItemsOpts)
+
+    // Or handle requests using handling function
+    // fastify.get('/items', getTemplateItemsOpts, handleAllTemplateItemsGet(fastify))
     done()
 }
