@@ -3,6 +3,7 @@ import {
     getAllTemplateItems as handleAllTemplateItemsGet,
     getTemplateItemById as handleTemplateItemByIdGet,
     addTemplateItem as handleTemplateItemPost,
+    deleteTemplateItemById as handleTemplateItemDeleteById,
     getTemplateItemsOpts,
     getTemplateItemOpts,
 } from '../api/template'
@@ -25,6 +26,9 @@ export default function templateRouter(fastify, options, done) {
     
     // Add item into items in api/template
     fastify.post('/items', handleTemplateItemPost(fastify))
+
+    // Delete item by Id
+    fastify.delete('/items/:id', handleTemplateItemDeleteById(fastify))
     
     done()
 }

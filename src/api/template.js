@@ -28,6 +28,7 @@ export const getUuid = fastify => async (request, reply) => {
     return {uuid: id}
 }
 
+// POST add item
 export const addTemplateItem = fastify => async (request, reply) => {
     const { name } = request.body
     const item = {
@@ -37,6 +38,15 @@ export const addTemplateItem = fastify => async (request, reply) => {
 
     templateItems = [...templateItems, item]
     reply.code(201).send(item)
+}
+
+// DELETE delete item
+export const deleteTemplateItemById = fastify => async (request, reply) => {
+    const { id } = request.params
+
+    templateItems = templateItems.filter(item => item.id !== id)
+
+    reply.code(200).send({message: `Item ${id} has been removed`})
 }
 
 /////////////////////// Schemas, Options, Handlers for HTTP Response //////////////////
