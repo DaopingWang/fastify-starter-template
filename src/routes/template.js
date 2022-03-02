@@ -2,12 +2,14 @@ import {
     getUuid as handleUuidGet,
     getAllTemplateItems as handleAllTemplateItemsGet,
     getTemplateItemById as handleTemplateItemByIdGet,
+    addTemplateItem as handleTemplateItemPost,
     getTemplateItemsOpts,
-    getTemplateItemOpts
+    getTemplateItemOpts,
 } from '../api/template'
 
 // options is for defining schema of http response (map return object to schema)
 export default function templateRouter(fastify, options, done) {
+    // GET API with 
     fastify.get('/uuid', handleUuidGet(fastify))
 
     fastify.get('/', (request, reply) => {
@@ -19,6 +21,10 @@ export default function templateRouter(fastify, options, done) {
     fastify.get('/items', getTemplateItemsOpts)
 
     // Or handle requests using handling function
-    // fastify.get('/items', getTemplateItemsOpts, handleAllTemplateItemsGet(fastify))
+    fastify.get('/itemsbyfunctioncall', handleAllTemplateItemsGet(fastify))
+    
+    // Add item into items in api/template
+    fastify.post('/items', handleTemplateItemPost(fastify))
+    
     done()
 }

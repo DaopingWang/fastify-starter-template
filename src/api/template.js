@@ -1,7 +1,45 @@
 import fastify from 'fastify';
 import { v4 as uuidv4 } from 'uuid';
-import { items as templateItems } from '../data/template'
 
+// currently fetching data from hard-coded js
+//import { items as templateItems } from '../data/template'
+let templateItems = require('../data/template').items
+
+/////////////////////// API function implementations //////////////////
+export const getTemplateItemById = fastify => async (request, reply) => {
+    const { id } = request.params
+
+    // find item by id in object array
+    const item = templateItems.find((item) => item.id === id)
+    reply.send(item)
+}
+
+export const getAllTemplateItems = fastify => async (request, reply) => {
+    reply.send(templateItems)
+}
+
+
+export const getUuid = fastify => async (request, reply) => {
+    const id = uuidv4()
+
+    // Sent from backend to solve cors error
+    reply.header("Access-Control-Allow-Origin", "*")
+
+    return {uuid: id}
+}
+
+export const addTemplateItem = fastify => async (request, reply) => {
+    const { name } = request.body
+    const item = {
+        id: uuidv4(),
+        name
+    }
+
+    templateItems = [...templateItems, item]
+    reply.code(201).send(item)
+}
+
+/////////////////////// Schemas, Options, Handlers for HTTP Response //////////////////
 // Example schema for data/template.js
 const TemplateItemSchema = {
     type: 'object',
@@ -41,25 +79,4 @@ export const getTemplateItemOpts = {
         const item = templateItems.find((item) => item.id === id)
         reply.send(item)
     }
-}
-
-export const getTemplateItemById = fastify => async (request, reply) => {
-    const { id } = request.params
-
-    // find item by id in object array
-    const item = templateItems.find((item) => item.id === id)
-    reply.send(item)
-}
-
-export const getAllTemplateItems = fastify => async (request, reply) => {
-    reply.send(templateItems)
-}
-
-export const getUuid = fastify => async (request, reply) => {
-    const id = uuidv4()
-
-    // Sent from backend to solve cors error
-    reply.header("Access-Control-Allow-Origin", "*")
-
-    return {uuid: id}
 }
